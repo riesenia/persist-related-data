@@ -2,6 +2,13 @@
     "name": "riesenia/persist-related-data",
     "description": "CakePHP plugin for persisting selected fields of related tables",
     "type": "cakephp-plugin",
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "Tomas Saghy",
+            "email": "segy@riesenia.com"
+        }
+    ],
     "require": {
         "php": ">=5.4.16",
         "cakephp/cakephp": "~3.0"
