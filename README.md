@@ -4,9 +4,28 @@
 [![Total Downloads](https://img.shields.io/packagist/dt/riesenia/persist-related-data.svg?style=flat-square)](https://packagist.org/packages/riesenia/persist-related-data)
 [![Software License](https://img.shields.io/badge/license-MIT-brightgreen.svg?style=flat-square)](LICENSE.md)
 
-
 This plugin is for CakePHP 3.x and contains behavior that handles saving selected fields
 of related data (redundantly).
+
+## Installation
+
+Update *composer.json* file to include this plugin
+
+```json
+{
+    "require": {
+        "riesenia/persist-related-data": "~1.0"
+    }
+}
+```
+
+Load plugin in *config/bootstrap.php*
+
+```php
+Plugin::load('PersistRelatedData');
+```
+
+## Usage
 
 Good example for using this behavior is Invoices model that is related to Contacts. You
 can provide select box with contacts and save only *contact_id* when creating new invoice.
