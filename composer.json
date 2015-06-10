@@ -1,6 +1,6 @@
 {
     "name": "riesenia/persist-related-data",
-    "description": "CakePHP plugin for persisting selected fields of related table",
+    "description": "CakePHP plugin for persisting selected fields of related tables",
     "type": "cakephp-plugin",
     "require": {
         "php": ">=5.4.16",
