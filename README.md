@@ -7,3 +7,37 @@
 
 This plugin is for CakePHP 3.x and contains behavior that handles saving selected fields
 of related data (redundantly).
+
+Good example for using this behavior is Invoices model that is related to Contacts. You
+can provide select box with contacts and save only *contact_id* when creating new invoice.
+But when contact data are modified later, your invoice should be left intact.
+
+Example below assumes the *invoices* table has fields *contact_id*, *contact_name* and
+*contact_address*, while the *contacts* table has fields *name* and *address*. When you
+save Invoice entity with provided *contact_id*, fields *contact_name* and *contact_address*
+will be filled automatically.
+
+```php
+class InvoicesTable extends Table
+{
+    public function initialize(array $config)
+    {
+        parent::initialize($config);
+
+        // add PersistRelatedData behavior
+        $this->addBehavior('PersistRelatedData.PersistRelatedData', [
+            'fields' => [
+                'contact_name' => 'Contacts.name',
+                'contact_address' => 'Contacts.address'
+            ]
+        ]);
+
+        // associations
+        $this->belongsTo('Contacts', [
+            'foreignKey' => 'contact_id',
+            'className' => 'Contacts'
+        ]);
+    }
+}
+
+```
