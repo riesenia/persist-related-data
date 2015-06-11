@@ -32,8 +32,6 @@ class PersistRelatedDataBehavior extends Behavior
     public function beforeSave(Event $event, Entity $entity)
     {
         foreach ($this->config('fields') as $field => $mapped) {
-            var_dump($entity->get($field));
-
             list($mappedTable, $mappedField) = explode('.', $mapped);
 
             if (!isset($this->_table->{$mappedTable}) || $this->_table->{$mappedTable}->isOwningSide($this->_table)) {
