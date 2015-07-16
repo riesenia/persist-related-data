@@ -38,11 +38,15 @@ class PersistRelatedDataBehavior extends Behavior
                 throw new Exception(sprintf('Incorrect definition of related data to persist for %s', $mapped));
             }
 
-            // get related entity
-            $related = $this->_table->{$mappedTable}->get($entity->get($this->_table->{$mappedTable}->foreignKey()));
+            $foreign = $entity->get($this->_table->{$mappedTable}->foreignKey());
 
-            // set field value
-            $entity->set($field, $related->get($mappedField));
+            if (!is_null($foreign)) {
+                // get related entity
+                $related = $this->_table->{$mappedTable}->get($foreign);
+
+                // set field value
+                $entity->set($field, $related->get($mappedField));
+            }
         }
     }
 }

@@ -84,4 +84,18 @@ class PersistRelatedDataBehaviorTest extends TestCase
         $this->assertEquals('Second name', $invoice->contact_name);
         $this->assertEquals('Second address', $invoice->contact_address);
     }
+
+    /**
+     * Test null
+     *
+     * @return void
+     */
+    public function testNull()
+    {
+        $invoice = $this->Invoices->newEntity();
+        $invoice->contact_name = 'Name';
+        $this->Invoices->save($invoice);
+
+        $this->assertEquals('Name', $invoice->contact_name);
+    }
 }
