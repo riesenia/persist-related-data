@@ -2,7 +2,7 @@
 namespace PersistRelatedData\Model\Behavior;
 
 use Cake\ORM\Behavior;
-use Cake\ORM\Entity;
+use Cake\Datasource\EntityInterface;
 use Cake\Event\Event;
 use Cake\Core\Exception\Exception;
 
@@ -29,7 +29,7 @@ class PersistRelatedDataBehavior extends Behavior
      * @param \Cake\ORM\Entity;
      * @return void
      */
-    public function beforeSave(Event $event, Entity $entity)
+    public function beforeSave(Event $event, EntityInterface $entity, \ArrayObject $options)
     {
         foreach ($this->config('fields') as $field => $mapped) {
             list($mappedTable, $mappedField) = explode('.', $mapped);

@@ -59,5 +59,4 @@ class InvoicesTable extends Table
         ]);
     }
 }
-
 ```

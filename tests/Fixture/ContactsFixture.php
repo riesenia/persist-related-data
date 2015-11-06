@@ -17,7 +17,6 @@ class ContactsTable extends Table
 
 class ContactsFixture extends TestFixture
 {
-
     public $fields = [
         'id' => ['type' => 'integer'],
         'name' => ['type' => 'string', 'default' => null, 'null' => true],
@@ -26,6 +25,7 @@ class ContactsFixture extends TestFixture
             'primary' => ['type' => 'primary', 'columns' => ['id']]
         ]
     ];
+
     public $records = [
         [
             'id'      => 1,

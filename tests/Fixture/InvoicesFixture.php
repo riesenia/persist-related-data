@@ -25,7 +25,6 @@ class InvoicesTable extends Table
 
 class InvoicesFixture extends TestFixture
 {
-
     public $fields = [
         'id' => ['type' => 'integer'],
         'contact_id' => ['type' => 'integer', 'default' => null, 'null' => true],
@@ -35,6 +34,7 @@ class InvoicesFixture extends TestFixture
             'primary' => ['type' => 'primary', 'columns' => ['id']]
         ]
     ];
+
     public $records = [
         [
             'id'              => 1,
