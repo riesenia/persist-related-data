@@ -1,7 +1,7 @@
 {
     "name": "riesenia/persist-related-data",
     "description": "CakePHP ORM plugin for persisting selected fields of related tables",
-    "keywords": ["cakephp", "orm", "realted", "materialize"],
+    "keywords": ["cakephp", "orm", "related", "materialize"],
     "type": "cakephp-plugin",
     "license": "MIT",
     "authors": [
