@@ -31,6 +31,8 @@ class PersistRelatedDataBehavior extends Behavior
      */
     public function beforeSave(Event $event, EntityInterface $entity, \ArrayObject $options)
     {
+        $relatedEntities = [];
+
         foreach ($this->config('fields') as $field => $mapped) {
             list($mappedTable, $mappedField) = explode('.', $mapped);
 
@@ -38,15 +40,17 @@ class PersistRelatedDataBehavior extends Behavior
                 throw new Exception(sprintf('Incorrect definition of related data to persist for %s', $mapped));
             }
 
-            $foreignKeys = $entity->extract((array)$this->_table->{$mappedTable}->foreignKey());
-            $dirtyForeignKeys = $entity->extract((array)$this->_table->{$mappedTable}->foreignKey(), true);
+            $foreignKeys = $entity->extract((array) $this->_table->{$mappedTable}->foreignKey());
+            $dirtyForeignKeys = $entity->extract((array) $this->_table->{$mappedTable}->foreignKey(), true);
 
             if (!empty($dirtyForeignKeys)) {
                 // get related entity
-                $related = $this->_table->{$mappedTable}->get($foreignKeys);
+                if (empty($relatedEntities[$mappedTable])) {
+                    $relatedEntities[$mappedTable] = $this->_table->{$mappedTable}->get($foreign);
+                }
 
                 // set field value
-                $entity->set($field, $related->get($mappedField));
+                $entity->set($field, $relatedEntities[$mappedTable]->get($mappedField));
             }
         }
     }
