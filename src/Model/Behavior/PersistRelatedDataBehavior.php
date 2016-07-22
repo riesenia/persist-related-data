@@ -31,6 +31,7 @@ class PersistRelatedDataBehavior extends Behavior
      */
     public function beforeSave(Event $event, EntityInterface $entity, \ArrayObject $options)
     {
+        $relatedEntities = [];
         foreach ($this->config('fields') as $field => $mapped) {
             list($mappedTable, $mappedField) = explode('.', $mapped);
 
@@ -42,10 +43,12 @@ class PersistRelatedDataBehavior extends Behavior
 
             if (!is_null($foreign)) {
                 // get related entity
-                $related = $this->_table->{$mappedTable}->get($foreign);
+                if (empty($relatedEntities[$mappedTable])) {
+                    $relatedEntities[$mappedTable] = $this->_table->{$mappedTable}->get($foreign);
+                }
 
                 // set field value
-                $entity->set($field, $related->get($mappedField));
+                $entity->set($field, $relatedEntities[$mappedTable]->get($mappedField));
             }
         }
     }
