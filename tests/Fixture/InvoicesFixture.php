@@ -27,6 +27,7 @@ class InvoicesFixture extends TestFixture
 {
     public $fields = [
         'id' => ['type' => 'integer'],
+        'a_field' => ['type' => 'string', 'default' => null, 'null' => true],
         'contact_id' => ['type' => 'integer', 'default' => null, 'null' => true],
         'contact_name' => ['type' => 'string', 'default' => null, 'null' => true],
         'contact_address' => ['type' => 'string', 'default' => null, 'null' => true],

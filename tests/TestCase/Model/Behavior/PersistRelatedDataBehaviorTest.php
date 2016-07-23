@@ -73,12 +73,15 @@ class PersistRelatedDataBehaviorTest extends TestCase
 
         // no change
         $invoice = $this->Invoices->get(1);
+        $invoice->a_field = 'test';
         $this->Invoices->save($invoice);
 
         $this->assertEquals('First name', $invoice->contact_name);
 
         // change fields
+        $invoice = $this->Invoices->get(1);
         $invoice->contact_id = 2;
+        $invoice->a_field = 'test';
         $this->Invoices->save($invoice);
 
         $this->assertEquals('Second name', $invoice->contact_name);
