@@ -46,7 +46,7 @@ class PersistRelatedDataBehavior extends Behavior
             if (!empty($dirtyForeignKeys)) {
                 // get related entity
                 if (empty($relatedEntities[$mappedTable])) {
-                    $relatedEntities[$mappedTable] = $this->_table->{$mappedTable}->get($foreign);
+                    $relatedEntities[$mappedTable] = $this->_table->{$mappedTable}->get($foreignKeys);
                 }
 
                 // set field value
