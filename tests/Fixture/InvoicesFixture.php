@@ -38,9 +38,9 @@ class InvoicesFixture extends TestFixture
 
     public $records = [
         [
-            'id'              => 1,
-            'contact_id'      => 1,
-            'contact_name'    => 'First name',
+            'id' => 1,
+            'contact_id' => 1,
+            'contact_name' => 'First name',
             'contact_address' => 'First address'
         ]
     ];

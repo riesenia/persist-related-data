@@ -1,10 +1,10 @@
 <?php
 namespace PersistRelatedData\Model\Behavior;
 
-use Cake\ORM\Behavior;
+use Cake\Core\Exception\Exception;
 use Cake\Datasource\EntityInterface;
 use Cake\Event\Event;
-use Cake\Core\Exception\Exception;
+use Cake\ORM\Behavior;
 
 /**
  * Behavior for persisting selected fields from related table
@@ -13,20 +13,13 @@ use Cake\Core\Exception\Exception;
  */
 class PersistRelatedDataBehavior extends Behavior
 {
-    /**
-     * Default options
-     *
-     * @var array
-     */
+    /** @var array */
     protected $_defaultConfig = [
         'fields' => []
     ];
 
     /**
-     * Save also related model data.
-     *
-     * @param Event           $event
-     * @param EntityInterface $entity
+     * {@inheritDoc}
      */
     public function beforeSave(Event $event, EntityInterface $entity, \ArrayObject $options)
     {
@@ -39,8 +32,8 @@ class PersistRelatedDataBehavior extends Behavior
                 throw new Exception(sprintf('Incorrect definition of related data to persist for %s', $mapped));
             }
 
-            $foreignKeys = $entity->extract((array) $this->_table->{$mappedTable}->getForeignKey());
-            $dirtyForeignKeys = $entity->extract((array) $this->_table->{$mappedTable}->getForeignKey(), true);
+            $foreignKeys = $entity->extract((array)$this->_table->{$mappedTable}->getForeignKey());
+            $dirtyForeignKeys = $entity->extract((array)$this->_table->{$mappedTable}->getForeignKey(), true);
 
             if (!empty($dirtyForeignKeys)) {
                 // get related entity

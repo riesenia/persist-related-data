@@ -28,13 +28,13 @@ class ContactsFixture extends TestFixture
 
     public $records = [
         [
-            'id'      => 1,
-            'name'    => 'First name',
+            'id' => 1,
+            'name' => 'First name',
             'address' => 'First address'
         ],
         [
-            'id'      => 2,
-            'name'    => 'Second name',
+            'id' => 2,
+            'name' => 'Second name',
             'address' => 'Second address'
         ]
     ];
