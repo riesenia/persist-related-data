@@ -1,8 +1,8 @@
 <?php
 namespace PersistRelatedData\Test\TestCase\Model\Behavior;
 
-use Cake\TestSuite\TestCase;
 use Cake\ORM\TableRegistry;
+use Cake\TestSuite\TestCase;
 
 /**
  * PersistRelatedDataBehavior Test Case
