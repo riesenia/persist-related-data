@@ -23,25 +23,24 @@ class PersistRelatedDataBehavior extends Behavior
     ];
 
     /**
-     * Save also related model data
+     * Save also related model data.
      *
-     * @param \Cake\Event\Event
-     * @param \Cake\ORM\Entity;
-     * @return void
+     * @param Event           $event
+     * @param EntityInterface $entity
      */
     public function beforeSave(Event $event, EntityInterface $entity, \ArrayObject $options)
     {
         $relatedEntities = [];
 
-        foreach ($this->config('fields') as $field => $mapped) {
+        foreach ($this->getConfig('fields') as $field => $mapped) {
             list($mappedTable, $mappedField) = explode('.', $mapped);
 
             if (!isset($this->_table->{$mappedTable}) || $this->_table->{$mappedTable}->isOwningSide($this->_table)) {
                 throw new Exception(sprintf('Incorrect definition of related data to persist for %s', $mapped));
             }
 
-            $foreignKeys = $entity->extract((array) $this->_table->{$mappedTable}->foreignKey());
-            $dirtyForeignKeys = $entity->extract((array) $this->_table->{$mappedTable}->foreignKey(), true);
+            $foreignKeys = $entity->extract((array) $this->_table->{$mappedTable}->getForeignKey());
+            $dirtyForeignKeys = $entity->extract((array) $this->_table->{$mappedTable}->getForeignKey(), true);
 
             if (!empty($dirtyForeignKeys)) {
                 // get related entity
