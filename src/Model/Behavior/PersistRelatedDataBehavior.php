@@ -43,7 +43,7 @@ class PersistRelatedDataBehavior extends Behavior
 
                 // set field value
                 if (!is_null($relatedEntities[$mappedTable])) {
-                    $entity->set($field, $relatedEntities[$mappedTable]->get($mappedField));
+                    $entity->set($field, $entity->get($field)? :$relatedEntities[$mappedTable]->get($mappedField));
                 }
             }
         }
