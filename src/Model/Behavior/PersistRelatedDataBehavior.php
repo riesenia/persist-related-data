@@ -15,7 +15,8 @@ class PersistRelatedDataBehavior extends Behavior
 {
     /** @var array */
     protected $_defaultConfig = [
-        'fields' => []
+        'fields' => [],
+        'changeable' => []
     ];
 
     /**
@@ -43,7 +44,12 @@ class PersistRelatedDataBehavior extends Behavior
 
                 // set field value
                 if (!is_null($relatedEntities[$mappedTable])) {
-                    $entity->set($field, $entity->get($field)? :$relatedEntities[$mappedTable]->get($mappedField));
+                    if (in_array($field, $this->getConfig('changeable'))) {
+                        $entity->set($field, $entity->get($field) ? : $relatedEntities[$mappedTable]->get($mappedField));
+                    }
+                    else {
+                        $entity->set($field, $relatedEntities[$mappedTable]->get($mappedField));
+                    }
                 }
             }
         }
