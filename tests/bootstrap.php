@@ -1,34 +1,41 @@
 <?php
+/**
+ * This file is part of riesenia/persist-related-data package.
+ *
+ * Licensed under the MIT License
+ * (c) RIESENIA.com
+ */
+declare(strict_types=1);
 use Cake\Cache\Cache;
 use Cake\Core\Configure;
-use Cake\Core\Plugin;
 use Cake\Datasource\ConnectionManager;
 use Cake\Log\Log;
 
 require_once 'vendor/autoload.php';
 
-if (!defined('DS')) {
-    define('DS', DIRECTORY_SEPARATOR);
+if (!\defined('DS')) {
+    \define('DS', DIRECTORY_SEPARATOR);
 }
 
-define('ROOT', dirname(__DIR__) . DS);
-define('CAKE_CORE_INCLUDE_PATH', ROOT . 'vendor' . DS . 'cakephp' . DS . 'cakephp');
-define('CORE_PATH', ROOT . 'vendor' . DS . 'cakephp' . DS . 'cakephp' . DS);
-define('CAKE', CORE_PATH . 'src' . DS);
-define('APP', ROOT . 'tests' . DS . 'test_app' . DS);
-define('APP_DIR', 'test_app');
-define('WEBROOT_DIR', 'webroot');
-define('WWW_ROOT', APP . 'webroot' . DS);
-define('TMP', ROOT . 'tests' . DS . 'tmp' . DS);
-define('CACHE', TMP);
-define('LOGS', TMP);
+\define('ROOT', \dirname(__DIR__) . DS);
+\define('CAKE_CORE_INCLUDE_PATH', ROOT . 'vendor' . DS . 'cakephp' . DS . 'cakephp');
+\define('CORE_PATH', ROOT . 'vendor' . DS . 'cakephp' . DS . 'cakephp' . DS);
+\define('CAKE', CORE_PATH . 'src' . DS);
+\define('APP', ROOT . 'tests' . DS . 'test_app' . DS);
+\define('APP_DIR', 'test_app');
+\define('WEBROOT_DIR', 'webroot');
+\define('WWW_ROOT', APP . 'webroot' . DS);
+\define('TMP', ROOT . 'tests' . DS . 'tmp' . DS);
+\define('CACHE', TMP);
+\define('LOGS', TMP);
 
-$loader = new \Cake\Core\ClassLoader;
+$loader = new \Cake\Core\ClassLoader();
 $loader->register();
 $loader->addNamespace('Cake\Test\Fixture', ROOT . '/vendor/cakephp/cakephp/tests/Fixture');
+
 require_once CORE_PATH . 'config/bootstrap.php';
-date_default_timezone_set('UTC');
-mb_internal_encoding('UTF-8');
+\date_default_timezone_set('UTC');
+\mb_internal_encoding('UTF-8');
 Configure::write('debug', true);
 Configure::write('App', [
     'namespace' => 'App',
@@ -52,7 +59,7 @@ Configure::write('Session', [
     'defaults' => 'php'
 ]);
 
-Cache::config([
+Cache::setConfig([
     '_cake_core_' => [
         'engine' => 'File',
         'prefix' => 'cake_core_',
@@ -71,30 +78,31 @@ Cache::config([
 ]);
 
 // Ensure default test connection is defined
-if (!getenv('db_class')) {
-    putenv('db_class=Cake\Database\Driver\Sqlite');
-    putenv('db_dsn=sqlite::memory:');
+if (!\getenv('db_class')) {
+    \putenv('db_class=Cake\Database\Driver\Sqlite');
+    \putenv('db_dsn=sqlite::memory:');
 }
 
-ConnectionManager::config('test', [
+ConnectionManager::setConfig('test', [
     'className' => 'Cake\Database\Connection',
-    'driver' => getenv('db_class'),
-    'dsn' => getenv('db_dsn'),
-    'database' => getenv('db_database'),
-    'username' => getenv('db_login'),
-    'password' => getenv('db_password'),
-    'timezone' => 'UTC'
+    'driver' => \getenv('db_class') ?: 'Cake\Database\Driver\Sqlite',
+    'database' => \getenv('db_database') ?: ':memory:',
+    'username' => \getenv('db_login') ?: null,
+    'password' => \getenv('db_password') ?: null,
+    'timezone' => 'UTC',
+    'quoteIdentifiers' => false,
+    'cacheMetadata' => true
 ]);
 
-Log::config([
+Log::setConfig([
     'debug' => [
         'engine' => 'Cake\Log\Engine\FileLog',
         'levels' => ['notice', 'info', 'debug'],
-        'file' => 'debug',
+        'file' => 'debug'
     ],
     'error' => [
         'engine' => 'Cake\Log\Engine\FileLog',
         'levels' => ['warning', 'error', 'critical', 'alert', 'emergency'],
-        'file' => 'error',
+        'file' => 'error'
     ]
 ]);

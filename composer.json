@@ -11,11 +11,15 @@
         }
     ],
     "require": {
-        "cakephp/orm": "^3.5"
+        "php": ">=8.0",
+        "cakephp/orm": "^4.0"
     },
     "require-dev": {
-        "phpunit/phpunit": "^5.7.14|^6.0",
-        "cakephp/cakephp": "^3.5"
+        "cakephp/cakephp": "^4.0",
+        "friendsofphp/php-cs-fixer": "^3.0",
+        "phpstan/phpstan": "^1.0",
+        "phpunit/phpunit": "^8.5|^9.3",
+        "rshop/php-cs-fixer-config": "^3.0"
     },
     "autoload": {
         "psr-4": {

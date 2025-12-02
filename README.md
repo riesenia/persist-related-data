@@ -5,7 +5,7 @@
 [![Total Downloads](https://img.shields.io/packagist/dt/riesenia/persist-related-data.svg?style=flat-square)](https://packagist.org/packages/riesenia/persist-related-data)
 [![Software License](https://img.shields.io/badge/license-MIT-brightgreen.svg?style=flat-square)](LICENSE)
 
-This plugin is for CakePHP 3.x and contains behavior that handles saving selected fields
+This plugin is for CakePHP 4.x and contains behavior that handles saving selected fields
 of related data (redundantly).
 
 ## Installation
@@ -40,7 +40,7 @@ will be filled automatically.
 ```php
 class InvoicesTable extends Table
 {
-    public function initialize(array $config)
+    public function initialize(array $config): void
     {
         parent::initialize($config);
 
@@ -60,3 +60,25 @@ class InvoicesTable extends Table
     }
 }
 ```
+
+### Changeable fields
+
+By default, all fields are automatically overwritten with related data when the foreign key changes.
+If you want to allow manual edits to persisted fields while still populating them automatically when
+empty, use the `changeable` configuration option:
+
+```php
+$this->addBehavior('PersistRelatedData.PersistRelatedData', [
+    'fields' => [
+        'contact_name' => 'Contacts.name',
+        'contact_address' => 'Contacts.address'
+    ],
+    'changeable' => [
+        'contact_name'  // this field can be manually edited
+    ]
+]);
+```
+
+With this configuration:
+- **contact_name** will be populated from related data only if it's empty
+- **contact_address** will always be overwritten with related data when the foreign key changes

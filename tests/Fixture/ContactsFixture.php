@@ -1,4 +1,12 @@
 <?php
+/**
+ * This file is part of riesenia/persist-related-data package.
+ *
+ * Licensed under the MIT License
+ * (c) RIESENIA.com
+ */
+declare(strict_types=1);
+
 namespace PersistRelatedData\Test\Fixture;
 
 use Cake\ORM\Table;
@@ -6,7 +14,7 @@ use Cake\TestSuite\Fixture\TestFixture;
 
 class ContactsTable extends Table
 {
-    public function initialize(array $config)
+    public function initialize(array $config): void
     {
         parent::initialize($config);
 
@@ -19,8 +27,8 @@ class ContactsFixture extends TestFixture
 {
     public $fields = [
         'id' => ['type' => 'integer'],
-        'name' => ['type' => 'string', 'default' => null, 'null' => true],
-        'address' => ['type' => 'string', 'default' => null, 'null' => true],
+        'name' => ['type' => 'string', 'length' => 255, 'null' => true],
+        'address' => ['type' => 'string', 'length' => 255, 'null' => true],
         '_constraints' => [
             'primary' => ['type' => 'primary', 'columns' => ['id']]
         ]
