@@ -9,7 +9,6 @@ declare(strict_types=1);
 
 namespace PersistRelatedData\Model\Behavior;
 
-use RuntimeException;
 use Cake\Datasource\EntityInterface;
 use Cake\Event\Event;
 use Cake\ORM\Behavior;
@@ -21,21 +20,37 @@ use Cake\ORM\Behavior;
  */
 class PersistRelatedDataBehavior extends Behavior
 {
-    /** @var array */
+    /**
+     * @var array<string,mixed>
+     */
     protected $_defaultConfig = [
         'fields' => [],
         'changeable' => []
     ];
 
+    /**
+     * @param \Cake\Event\Event<\Cake\ORM\Table> $event
+     * @param \ArrayObject<string,mixed>         $options
+     */
     public function beforeSave(Event $event, EntityInterface $entity, \ArrayObject $options): void
     {
         $relatedEntities = [];
 
-        foreach ($this->getConfig('fields') as $field => $mapped) {
+        $fields = $this->getConfig('fields');
+
+        if (!\is_array($fields)) {
+            return;
+        }
+
+        foreach ($fields as $field => $mapped) {
+            if (!\is_string($field) || !\is_string($mapped)) {
+                continue;
+            }
+
             list($mappedTable, $mappedField) = \explode('.', $mapped);
 
             if (!isset($this->_table->{$mappedTable}) || $this->_table->{$mappedTable}->isOwningSide($this->_table)) {
-                throw new RuntimeException(\sprintf('Incorrect definition of related data to persist for %s', $mapped));
+                throw new \RuntimeException(\sprintf('Incorrect definition of related data to persist for %s', $mapped));
             }
 
             $foreignKeys = $entity->extract((array) $this->_table->{$mappedTable}->getForeignKey());
@@ -49,7 +64,9 @@ class PersistRelatedDataBehavior extends Behavior
 
                 // set field value
                 if (!\is_null($relatedEntities[$mappedTable])) {
-                    if (\in_array($field, $this->getConfig('changeable'))) {
+                    $changeable = $this->getConfig('changeable');
+
+                    if (\is_array($changeable) && \in_array($field, $changeable, true)) {
                         $entity->set($field, $entity->get($field) ?: $relatedEntities[$mappedTable]->get($mappedField));
                     } else {
                         $entity->set($field, $relatedEntities[$mappedTable]->get($mappedField));
