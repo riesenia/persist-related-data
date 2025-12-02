@@ -1,16 +1,24 @@
 <?php
+/**
+ * This file is part of riesenia/persist-related-data package.
+ *
+ * Licensed under the MIT License
+ * (c) RIESENIA.com
+ */
+declare(strict_types=1);
+
 namespace PersistRelatedData\Test\TestCase\Model\Behavior;
 
 use Cake\ORM\TableRegistry;
 use Cake\TestSuite\TestCase;
 
 /**
- * PersistRelatedDataBehavior Test Case
+ * PersistRelatedDataBehavior Test Case.
  */
 class PersistRelatedDataBehaviorTest extends TestCase
 {
     /**
-     * Fixtures
+     * Fixtures.
      *
      * @var array
      */
@@ -20,39 +28,11 @@ class PersistRelatedDataBehaviorTest extends TestCase
     ];
 
     /**
-     * setUp method
-     *
-     * @return void
-     */
-    public function setUp()
-    {
-        parent::setUp();
-
-        $this->Invoices = TableRegistry::get('Invoices', ['className' => 'PersistRelatedData\Test\Fixture\InvoicesTable']);
-        $this->Contacts = TableRegistry::get('Contacts', ['className' => 'PersistRelatedData\Test\Fixture\ContactsTable']);
-    }
-
-    /**
-     * tearDown method
-     *
-     * @return void
-     */
-    public function tearDown()
-    {
-        unset($this->Invoices);
-        unset($this->Contacts);
-
-        parent::tearDown();
-    }
-
-    /**
-     * Test saving new record
-     *
-     * @return void
+     * Test saving new record.
      */
     public function testNewRecord()
     {
-        $invoice = $this->Invoices->newEntity();
+        $invoice = $this->Invoices->newEntity([]);
         $invoice->contact_id = 2;
         $this->Invoices->save($invoice);
 
@@ -61,9 +41,7 @@ class PersistRelatedDataBehaviorTest extends TestCase
     }
 
     /**
-     * Test updating record
-     *
-     * @return void
+     * Test updating record.
      */
     public function testUpdate()
     {
@@ -89,16 +67,55 @@ class PersistRelatedDataBehaviorTest extends TestCase
     }
 
     /**
-     * Test null
-     *
-     * @return void
+     * Test null.
      */
     public function testNull()
     {
-        $invoice = $this->Invoices->newEntity();
+        $invoice = $this->Invoices->newEntity([]);
         $invoice->contact_name = 'Name';
         $this->Invoices->save($invoice);
 
         $this->assertEquals('Name', $invoice->contact_name);
+    }
+
+    /**
+     * setUpBeforeClass method - Create fixture tables.
+     */
+    public static function setUpBeforeClass(): void
+    {
+        parent::setUpBeforeClass();
+
+        $connection = \Cake\Datasource\ConnectionManager::get('test');
+
+        // Create fixture tables
+        $fixtures = [
+            new \PersistRelatedData\Test\Fixture\InvoicesFixture(),
+            new \PersistRelatedData\Test\Fixture\ContactsFixture()
+        ];
+
+        foreach ($fixtures as $fixture) {
+            $fixture->create($connection);
+        }
+    }
+
+    /**
+     * setUp method.
+     */
+    public function setUp(): void
+    {
+        parent::setUp();
+
+        $this->Invoices = TableRegistry::getTableLocator()->get('Invoices', ['className' => 'PersistRelatedData\Test\Fixture\InvoicesTable']);
+        $this->Contacts = TableRegistry::getTableLocator()->get('Contacts', ['className' => 'PersistRelatedData\Test\Fixture\ContactsTable']);
+    }
+
+    /**
+     * tearDown method.
+     */
+    public function tearDown(): void
+    {
+        unset($this->Invoices, $this->Contacts);
+
+        parent::tearDown();
     }
 }

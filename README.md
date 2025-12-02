@@ -5,7 +5,7 @@
 [![Total Downloads](https://img.shields.io/packagist/dt/riesenia/persist-related-data.svg?style=flat-square)](https://packagist.org/packages/riesenia/persist-related-data)
 [![Software License](https://img.shields.io/badge/license-MIT-brightgreen.svg?style=flat-square)](LICENSE)
 
-This plugin is for CakePHP 3.x and contains behavior that handles saving selected fields
+This plugin is for CakePHP 4.x and contains behavior that handles saving selected fields
 of related data (redundantly).
 
 ## Installation
@@ -40,7 +40,7 @@ will be filled automatically.
 ```php
 class InvoicesTable extends Table
 {
-    public function initialize(array $config)
+    public function initialize(array $config): void
     {
         parent::initialize($config);
 
