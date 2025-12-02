@@ -60,3 +60,25 @@ class InvoicesTable extends Table
     }
 }
 ```
+
+### Changeable fields
+
+By default, all fields are automatically overwritten with related data when the foreign key changes.
+If you want to allow manual edits to persisted fields while still populating them automatically when
+empty, use the `changeable` configuration option:
+
+```php
+$this->addBehavior('PersistRelatedData.PersistRelatedData', [
+    'fields' => [
+        'contact_name' => 'Contacts.name',
+        'contact_address' => 'Contacts.address'
+    ],
+    'changeable' => [
+        'contact_name'  // this field can be manually edited
+    ]
+]);
+```
+
+With this configuration:
+- **contact_name** will be populated from related data only if it's empty
+- **contact_address** will always be overwritten with related data when the foreign key changes
